@@ -22,7 +22,7 @@ class ScenarioTesterDecoratorSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(ScenarioTesterDecorator::class);
+        $this->shouldHaveType('Bex\Behat\SkipTestsExtension\Decorator\ScenarioTesterDecorator');
     }
 
     function it_should_call_the_decorated_method_during_setup(
