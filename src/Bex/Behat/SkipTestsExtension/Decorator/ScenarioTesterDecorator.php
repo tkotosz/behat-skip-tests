@@ -60,7 +60,7 @@ class ScenarioTesterDecorator implements ScenarioTester
      */
     public function test(Environment $env, FeatureNode $feature, Scenario $scenario, $skip)
     {
-        if (!empty(array_intersect($scenario->getTags(), $this->config->getScenarioSkipTags()))) {
+        if ($this->shouldSkipScenario($scenario)) {
             $skip = true;
         }
         
@@ -81,5 +81,17 @@ class ScenarioTesterDecorator implements ScenarioTester
     public function tearDown(Environment $env, FeatureNode $feature, Scenario $scenario, $skip, TestResult $result)
     {
         return $this->scenarioTester->tearDown($env, $feature, $scenario, $skip, $result);
+    }
+
+    /**
+     * @param Scenario $scenario
+     *
+     * @return bool
+     */
+    private function shouldSkipScenario(Scenario $scenario)
+    {
+        $matchingSkipTags = array_intersect($scenario->getTags(), $this->config->getScenarioSkipTags());
+        
+        return !empty($matchingSkipTags);
     }
 }
