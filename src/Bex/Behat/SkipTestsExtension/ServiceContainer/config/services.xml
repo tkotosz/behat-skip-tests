@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="bex.tester.scenario.decorator"
+            decorates="tester.scenario"
+            class="Bex\Behat\SkipTestsExtension\Decorator\ScenarioTesterDecorator"
+            public="false">
+            <argument type="service" id="bex.tester.scenario.decorator.inner" />
+            <argument type="service" id="bex.skip_tests_extension.config" />
+        </service>
+    </services>
+</container>

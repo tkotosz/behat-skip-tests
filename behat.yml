@@ -1,0 +1,9 @@
+default:
+  suites:
+    default:
+      contexts:
+        - Bex\Behat\Context\TestRunnerContext:
+            browserCommand: %paths.base%/bin/phantomjs --webdriver=4444
+        - FeatureContext
+  extensions:
+    Bex\Behat\SkipTestsExtension: ~
