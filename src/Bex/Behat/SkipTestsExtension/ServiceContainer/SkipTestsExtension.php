@@ -55,7 +55,7 @@ class SkipTestsExtension implements Extension
                 ->arrayNode(Config::CONFIG_PARAM_SKIP_TAGS)
                     ->defaultValue(['pending', 'skip'])
                     ->beforeNormalization()
-                        ->always($this->SkipTagsInitializer())
+                        ->always($this->getSkipTagsInitializer())
                     ->end()
                     ->prototype('scalar')->end()
                 ->end()
@@ -77,7 +77,7 @@ class SkipTestsExtension implements Extension
     /**
      * @return \Closure
      */
-    private function SkipTagsInitializer()
+    private function getSkipTagsInitializer()
     {
         return function ($value) {
             $value = empty($value) ? ['pending', 'skip'] : $value;
