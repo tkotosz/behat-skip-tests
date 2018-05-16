@@ -28,9 +28,28 @@ default:
     Bex\Behat\SkipTestsExtension: ~
 ```
 
+You can disable the scenario skipping like this:
+
+```yml
+default:
+  extensions:
+    Bex\Behat\SkipTestsExtension:
+      skip_scenarios: false
+```
+
+You can configure the skip tags like this:
+
+```yml
+default:
+  extensions:
+    Bex\Behat\SkipTestsExtension:
+      skip_tags: ['myawesometag'] # default: ['pending', 'skip']
+```
+
 Usage
 -----
 
-Add `@pending` tag to any scenario to skip all steps within that scenario.
+Add a skip tag to any scenario to skip all steps within that scenario.
+By default you can use the `@pending` or `@skip` tags to skip a scenario, but you can configure your own skip tags as well (see configuration above).
 
 See example in [this](https://github.com/tkotosz/behat-skip-tests/blob/master/features/scenario-skipping.feature) feature file.

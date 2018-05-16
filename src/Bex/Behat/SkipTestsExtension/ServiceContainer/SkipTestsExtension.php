@@ -47,7 +47,19 @@ class SkipTestsExtension implements Extension
      */
     public function configure(ArrayNodeDefinition $builder)
     {
-        // ...
+        $builder
+            ->children()
+                ->booleanNode(Config::CONFIG_PARAM_SKIP_SCENARIOS)
+                    ->defaultTrue()
+                ->end()
+                ->arrayNode(Config::CONFIG_PARAM_SKIP_TAGS)
+                    ->defaultValue(['pending', 'skip'])
+                    ->beforeNormalization()
+                        ->always($this->getSkipTagsInitializer())
+                    ->end()
+                    ->prototype('scalar')->end()
+                ->end()
+            ->end();
     }
 
     /**
@@ -58,7 +70,18 @@ class SkipTestsExtension implements Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/config'));
         $loader->load('services.xml');
 
-        $extensionConfig = new Config($container, $config);
+        $extensionConfig = new Config($config);
         $container->set('bex.skip_tests_extension.config', $extensionConfig);
+    }
+
+    /**
+     * @return \Closure
+     */
+    private function getSkipTagsInitializer()
+    {
+        return function ($value) {
+            $value = empty($value) ? ['pending', 'skip'] : $value;
+            return is_array($value) ? $value : [$value];
+        };
     }
 }

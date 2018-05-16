@@ -90,8 +90,8 @@ class ScenarioTesterDecorator implements ScenarioTester
      */
     private function shouldSkipScenario(Scenario $scenario)
     {
-        $matchingSkipTags = array_intersect($scenario->getTags(), $this->config->getScenarioSkipTags());
+        $matchingSkipTags = array_intersect($scenario->getTags(), $this->config->getSkipTags());
         
-        return !empty($matchingSkipTags);
+        return $this->config->shouldSkipScenarios() && !empty($matchingSkipTags);
     }
 }
