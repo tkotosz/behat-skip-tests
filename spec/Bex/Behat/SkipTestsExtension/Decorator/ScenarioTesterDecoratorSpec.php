@@ -58,7 +58,8 @@ class ScenarioTesterDecoratorSpec extends ObjectBehavior
         ScenarioInterface $scenario,
         TestResult $testResult
     ) {
-        $config->getScenarioSkipTags()->willReturn(['pending', 'skip']);
+        $config->shouldSkipScenarios()->willReturn(true);
+        $config->getSkipTags()->willReturn(['pending', 'skip']);
         $scenario->getTags()->willReturn(['javascript']);
 
         $scenarioTester->test($env, $feature, $scenario, false)->shouldBeCalled()->willReturn($testResult);
@@ -74,10 +75,28 @@ class ScenarioTesterDecoratorSpec extends ObjectBehavior
         ScenarioInterface $scenario,
         TestResult $testResult
     ) {
-        $config->getScenarioSkipTags()->willReturn(['pending', 'skip']);
+        $config->shouldSkipScenarios()->willReturn(true);
+        $config->getSkipTags()->willReturn(['pending', 'skip']);
         $scenario->getTags()->willReturn(['javascript', 'pending']);
 
         $scenarioTester->test($env, $feature, $scenario, true)->shouldBeCalled()->willReturn($testResult);
+
+        $this->test($env, $feature, $scenario, false)->shouldReturn($testResult);
+    }
+
+    function it_should_call_the_decorated_method_during_test_without_modifying_the_input_if_scenario_skipping_disabled(
+        ScenarioTester $scenarioTester,
+        Config $config,
+        Environment $env,
+        FeatureNode $feature,
+        ScenarioInterface $scenario,
+        TestResult $testResult
+    ) {
+        $config->shouldSkipScenarios()->willReturn(false);
+        $config->getSkipTags()->willReturn(['pending', 'skip']);
+        $scenario->getTags()->willReturn(['javascript', 'pending']);
+
+        $scenarioTester->test($env, $feature, $scenario, false)->shouldBeCalled()->willReturn($testResult);
 
         $this->test($env, $feature, $scenario, false)->shouldReturn($testResult);
     }

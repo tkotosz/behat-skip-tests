@@ -2,36 +2,43 @@
 
 namespace Bex\Behat\SkipTestsExtension\ServiceContainer;
 
-use Bex\Behat\StepTimeLoggerExtension\Service\OutputPrinter\OutputPrinterInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 class Config
 {
+    const CONFIG_PARAM_SKIP_SCENARIOS = 'skip_scenarios';
+    const CONFIG_PARAM_SKIP_TAGS = 'skip_tags';
+
     /**
-     * @var ContainerBuilder
+     * @var bool
      */
-    private $container;
+    private $skipScenarios;
 
     /**
      * @var string[]
      */
-    private $scenarioSkipTags = [];
+    private $skipTags = [];
 
     /**
-     * @param ContainerBuilder $container
-     * @param array            $config
+     * @param array $config
      */
-    public function __construct(ContainerBuilder $container, $config)
+    public function __construct($config)
     {
-        $this->container = $container;
-        $this->scenarioSkipTags = ['pending', 'skip'];
+        $this->skipScenarios = $config[self::CONFIG_PARAM_SKIP_SCENARIOS];
+        $this->skipTags = $config[self::CONFIG_PARAM_SKIP_TAGS];
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldSkipScenarios()
+    {
+        return $this->skipScenarios;
     }
 
     /**
      * @return string[]
      */
-    public function getScenarioSkipTags()
+    public function getSkipTags()
     {
-        return $this->scenarioSkipTags;
+        return $this->skipTags;
     }
 }

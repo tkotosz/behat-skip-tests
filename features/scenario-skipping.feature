@@ -16,7 +16,7 @@ Feature: Skip scenarios
       @pending
       Scenario: Second scenario
         Given I have a passing step
-        When I have a not yet implemented but defined step
+        When I have a failing step
         Then I have a totally new undefined step
       """
     And I have the context:
@@ -43,11 +43,11 @@ Feature: Skip scenarios
           }
 
           /**
-           * @Given I have a not yet implemented but defined step
+           * @Given I have a failing step
            */
           public function isHaveAPendingStep()
           {
-              throw new \Behat\Behat\Tester\Exception\PendingException();
+              throw new \Exception('error');
           }
       }
       """
@@ -60,4 +60,52 @@ Feature: Skip scenarios
           Bex\Behat\SkipTestsExtension: ~
       """
     When I run Behat with "--no-snippets" parameter
-    Then I should see the message "6 steps (3 passed, 1 undefined, 2 skipped)"
+    Then I should see the message "2 scenarios (1 passed, 1 undefined)"
+  
+  Scenario: Not skipping pending scenario
+    Given I have the configuration:
+      """
+      default:
+        extensions:
+          Bex\Behat\SkipTestsExtension:
+            skip_scenarios: false
+      """
+    When I run Behat with "--no-snippets" parameter
+    Then I should see the message "2 scenarios (1 passed, 1 failed)"
+
+  Scenario: Skipping scenario based on custom skip-tags
+    Given I have the configuration:
+      """
+      default:
+        extensions:
+          Bex\Behat\SkipTestsExtension:
+            skip_tags: ['mytag', 'myothertag']
+      """
+    And I have the feature:
+      """
+      Feature: First feature
+
+      Scenario: First scenario
+        Given I have a passing step
+        When I have another passing step
+        Then I have another passing step
+
+      @mytag
+      Scenario: Second scenario
+        Given I have a passing step
+        When I have a not yet implemented but defined step
+        Then I have a totally new undefined step
+
+      @myothertag
+      Scenario: Third scenario
+        Given I have a passing step
+        When I have a not yet implemented but defined step
+        Then I have a totally new undefined step
+
+      Scenario: Forth scenario
+        Given I have a passing step
+        When I have another passing step
+        Then I have another passing step
+      """
+    When I run Behat with "--no-snippets" parameter
+    Then I should see the message "4 scenarios (2 passed, 2 undefined)"
