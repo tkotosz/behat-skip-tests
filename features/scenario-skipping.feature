@@ -109,3 +109,27 @@ Feature: Skip scenarios
       """
     When I run Behat with "--no-snippets" parameter
     Then I should see the message "4 scenarios (2 passed, 2 undefined)"
+
+  Scenario: Skip pending examples (scenario outline)
+    Given I have the configuration:
+      """
+      default:
+        extensions:
+          Bex\Behat\SkipTestsExtension: ~
+      """
+    And I have the feature:
+      """
+      Feature: Multi-step feature
+
+      @pending
+      Scenario Outline: my outline scenario
+        Given I have a <first> step
+        When I have a <second> step
+        Then I should have a <third> step
+
+        Examples:
+          | first   | second  | third   |
+          | passing | failing | skipped |
+      """
+    When I run Behat with "--no-snippets" parameter
+    Then I should see the message "1 scenario (1 undefined)"

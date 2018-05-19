@@ -10,5 +10,13 @@
             <argument type="service" id="bex.tester.scenario.decorator.inner" />
             <argument type="service" id="bex.skip_tests_extension.config" />
         </service>
+
+        <service id="bex.tester.example.decorator"
+            decorates="tester.example"
+            class="Bex\Behat\SkipTestsExtension\Decorator\ScenarioTesterDecorator"
+            public="false">
+            <argument type="service" id="bex.tester.example.decorator.inner" />
+            <argument type="service" id="bex.skip_tests_extension.config" />
+        </service>
     </services>
 </container>
