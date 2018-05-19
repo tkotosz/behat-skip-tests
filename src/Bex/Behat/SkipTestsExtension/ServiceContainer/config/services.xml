@@ -18,5 +18,13 @@
             <argument type="service" id="bex.tester.example.decorator.inner" />
             <argument type="service" id="bex.skip_tests_extension.config" />
         </service>
+
+        <service id="bex.tester.feature.decorator"
+            decorates="tester.specification"
+            class="Bex\Behat\SkipTestsExtension\Decorator\FeatureTesterDecorator"
+            public="false">
+            <argument type="service" id="bex.tester.feature.decorator.inner" />
+            <argument type="service" id="bex.skip_tests_extension.config" />
+        </service>
     </services>
 </container>
