@@ -37,6 +37,15 @@ default:
       skip_scenarios: false
 ```
 
+You can disable the feature skipping like this:
+
+```yml
+default:
+  extensions:
+    Bex\Behat\SkipTestsExtension:
+      skip_features: false
+```
+
 You can configure the skip tags like this:
 
 ```yml

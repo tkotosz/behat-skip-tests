@@ -5,6 +5,7 @@ namespace Bex\Behat\SkipTestsExtension\ServiceContainer;
 class Config
 {
     const CONFIG_PARAM_SKIP_SCENARIOS = 'skip_scenarios';
+    const CONFIG_PARAM_SKIP_FEATURES = 'skip_features';
     const CONFIG_PARAM_SKIP_TAGS = 'skip_tags';
 
     /**
@@ -23,6 +24,7 @@ class Config
     public function __construct($config)
     {
         $this->skipScenarios = $config[self::CONFIG_PARAM_SKIP_SCENARIOS];
+        $this->skipFeatures = $config[self::CONFIG_PARAM_SKIP_FEATURES];
         $this->skipTags = $config[self::CONFIG_PARAM_SKIP_TAGS];
     }
 
@@ -32,6 +34,14 @@ class Config
     public function shouldSkipScenarios()
     {
         return $this->skipScenarios;
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldSkipFeatures()
+    {
+        return $this->skipFeatures;
     }
 
     /**
