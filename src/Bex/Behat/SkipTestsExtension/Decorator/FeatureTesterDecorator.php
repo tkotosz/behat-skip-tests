@@ -15,7 +15,7 @@ use Bex\Behat\SkipTestsExtension\ServiceContainer\Config;
 class FeatureTesterDecorator implements SpecificationTester
 {
     /**
-     * @var ScenarioTester
+     * @var SpecificationTester
      */
     private $featureTester;
     

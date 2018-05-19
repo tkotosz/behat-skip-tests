@@ -14,6 +14,11 @@ class Config
     private $skipScenarios;
 
     /**
+     * @var bool
+     */
+    private $skipFeatures;
+
+    /**
      * @var string[]
      */
     private $skipTags = [];
